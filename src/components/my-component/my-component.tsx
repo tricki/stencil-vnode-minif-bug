@@ -1,4 +1,4 @@
-import { Component, Prop, h } from '@stencil/core';
+import { Component, Prop, h, VNode } from '@stencil/core';
 import { format } from '../../utils/utils';
 
 @Component({
@@ -22,8 +22,28 @@ export class MyComponent {
    */
   @Prop() last: string;
 
+  componentWillLoad() {
+    this.testVnodeBug();
+  }
+
   private getText(): string {
     return format(this.first, this.middle, this.last);
+  }
+
+  testVnodeBug() {
+    const vnode: VNode = <div class="foo">bar</div>
+
+    console.log(vnode);
+    console.log({
+      tag: vnode.$tag$,
+      name: vnode.$name$,
+      attrs: vnode.$attrs$,
+      text: vnode.$text$,
+      children: vnode.$children$,
+      elm: vnode.$elm$,
+      flags: vnode.$flags$,
+      key: vnode.$key$,
+    });
   }
 
   render() {
